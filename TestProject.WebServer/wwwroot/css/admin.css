@@ -1,0 +1,27 @@
+﻿.admin-panel{
+    margin: 0 auto;
+    width: 95%;
+}
+
+.user-info {
+    max-height: 355px;
+    overflow-y: auto;
+}
+
+.role-info {
+    max-height: 355px;
+    overflow-y: auto;
+}
+
+.item-info {
+    max-height: 355px;
+    overflow-y: auto;
+}
+
+.user-item {
+    cursor: pointer;
+}
+
+.user-item:hover {
+  background-color: #e6e7e8;
+}

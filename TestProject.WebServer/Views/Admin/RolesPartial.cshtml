@@ -1,0 +1,42 @@
+﻿<div class="row">
+    <div class="col-md-12 crud-buttons-panel">
+        <div class="btn-toolbar btn-group-sm">
+            <button type="button" ng-disabled="isLoading" class="btn btn-outline-dark mr-2" ng-click="addNewRole()">Новая роль</button>
+            <button type="button" class="btn btn-outline-dark mr-2" ng-click="updateCustomRole()">Сохранить роль</button>
+            <button type="button" class="btn btn-outline-dark mr-2" ng-disabled="isLoading || !selectedCustomRole" ng-click="deleteCustomRole()">
+                Удалить роль
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row pt-2">
+    <div class="col-md-3">
+        <div class="side-navigation position-relative">
+            <div class="list-group list-group-flush role-list">
+                <ul class="list-group list-group-flush item-list">
+                    <li class="list-group-item list-group-item-action" ng-repeat="role in customRoles" ng-click="selectCustomRole(role)" ng-class="{true: 'selected'}[role.isSelected]">
+                        <span ng-bind="role.name"></span> &nbsp; <span class="badge badge-warning badge-pill" ng-show="!role.id">Не сохранён</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-5 item-info" ng-if="selectedCustomRole">
+        <!--name of role-->
+        <div class="form-group w-100">
+            <label for="roleName">Название</label>
+            <input id="roleName" type="text" ng-disabled="isLoading" class="form-control form-control-sm" ng-model="selectedCustomRole.name" ng-change="selectedCustomRole.isChanged = true">
+        </div>
+        <!--description of role-->
+        <div class="form-group w-100">
+            <label for="description">Описание</label>
+            <textarea id="description" type="text" ng-disabled="isLoading" style="resize: none" class="form-control form-control-sm" ng-model="selectedCustomRole.description" ng-change="selectedCustomRole.isChanged = true" maxlength="256"></textarea>
+        </div>
+        <div class="form-group w-100" ng-repeat="appRole in selectedCustomRole.appRoles">
+            <label class="small-text">
+                <input class="mat-checkbox" type="checkbox" ng-disabled="isLoading" ng-model="appRole.isSelected" ng-change="selectedCustomRole.isChanged = true" aria-label="Checkbox for following text input" />
+                <span ng-bind="appRole.displayName"></span>
+            </label>
+        </div>
+    </div>
+</div>

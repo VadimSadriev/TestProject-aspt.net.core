@@ -1,0 +1,42 @@
+﻿<div ng-app="login-app" ng-controller="login-ctrl" ng-cloak>
+    <div class="card text-center login-card">
+        <div class="card-header">
+            Войдите, используя логин или эл. почту
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <span>Логин/Эл. почта</span>
+                    <input type="text" class="form-control small-input" ng-model="user.userNameOrEmail" ng-disabled="isLoading"/>
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col-md-6 offset-md-3">
+                    <span>Пароль</span>
+                    <input type="password" class="form-control small-input" ng-model="user.password" ng-disabled="isLoading"/>
+                </div>
+            </div>
+            <div class="row pt-2">
+                <div class="col-md-6 offset-md-3">
+                    <label>
+                        <input class="mat-checkbox" type="checkbox" ng-model="user.rememberMe" ng-disabled="isLoading"/>
+                        <span>Запомнить меня?</span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <div class="row">
+                <div class="col-sm-10 offset-sm-1  col-lg-4 offset-lg-4">
+                    <button class="btn btn-group-sm btn-outline-primary btn-block" ng-click="login()">Войти</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<environment include="development">
+    <script src="~/js/account/account.js"></script>
+</environment>
+<environment include="production">
+    <script src="~/js/account/account.min.js"></script>
+</environment>

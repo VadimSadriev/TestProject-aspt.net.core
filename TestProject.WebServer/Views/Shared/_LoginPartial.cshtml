@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@*@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager*@
+
+<ul class="navbar-nav">
+@if (@*SignInManager.IsSignedIn(User)*@User.Identity.IsAuthenticated)
+{
+    <li class="nav-item">
+        <a  class="nav-link text-dark"> @User.Identity.Name</a>
+    </li>
+    <li class="nav-item">
+        <form  class="form-inline" asp-area="Identity" method="post"  asp-controller="account" asp-action="logout">
+            <button  type="submit" class="nav-link btn btn-link text-dark">Выйти</button>
+        </form>
+        <a></a>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" href="/account/login">Войти</a>
+    </li>
+}
+</ul>
+<script>
+
+    //function goToLogin() {
+    //    location.href = `/account/login?returnUrl=${location.href}`;
+    //    return;
+    //}
+</script>

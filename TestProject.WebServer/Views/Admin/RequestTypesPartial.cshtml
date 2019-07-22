@@ -1,0 +1,48 @@
+﻿<!-- tools panel-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="btn-toolbar btn-group-sm">
+            <button type="button" ng-disabled="isLoading" class="btn btn-outline-dark mr-2" ng-click="addNewRequestType()">Новый тип</button>
+            <button type="button" ng-disabled="isloading || (!selectedRequestType || !selectedRequestType.isChanged)"
+                    class="btn btn-outline-dark mr-2" ng-click="updateRequestType()">
+                Сохранить тип
+            </button>
+            <button type="button" class="btn btn-outline-dark mr-2" ng-disabled="isLoading || !selectedRequestType" ng-click="deleteRequestType()">
+                Удалить тип
+            </button>
+        </div>
+    </div>
+</div>
+<!--main content-->
+<div class="row pt-2">
+    <!--request types list-->
+    <div class="col-md-3">
+        <ul class="list-group list-group-flush item-list">
+            <li class="list-group-item list-group-item-action" ng-repeat="requestType in requestTypes" ng-click="selectRequestType(requestType)" ng-class="{true: 'selected'}[requestType.isSelected]">
+                <span ng-bind="requestType.name"></span> &nbsp; <span class="badge badge-warning badge-pill" ng-show="!requestType.id">Не сохранён</span>
+            </li>
+        </ul>
+    </div>
+    <!-- request type info-->
+    <div class="col-md-5 item-info" ng-if="selectedRequestType.isSelected">
+        <div class="form-group w-100">
+            <label for="requestTypeName">Название</label>
+            <input type="text" id="requestTypeName" ng-disabled="isLoading" class="form-control form-control-sm" ng-model="selectedRequestType.name" ng-change="selectedRequestType.isChanged = true;" role="alert">
+        </div>
+        <div class="center-things mb-3">
+            <button class="btn btn-outline-success btn-sm" ng-click="addNewRequestTypeField()">Добавить поле</button>
+        </div>
+        <div class="input-group input-group-sm mb-4" ng-class="{true: 'shadow-error rounded'}[typeField.isDeleted]" ng-repeat="typeField in selectedRequestType.requestTypeFields">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Название/тип</span>
+            </div>
+            <input type="text" aria-label="Name" class="form-control" ng-model="typeField.name" ng-change="selectedRequestType.isChanged = true;">
+            <select class="custom-select" ng-change="selectedRequestType.isChanged = true;" ng-model="typeField.type">
+                <option ng-repeat="fieldType in requestFieldTypes" ng-value="fieldType.value" ng-bind="fieldType.displayName"></option>
+            </select>
+            <div class="input-group-append delete-button" ng-click="setDeleted(typeField, selectedRequestType.requestTypeFields); selectedRequestType.isChanged = true;">
+                <button class="btn btn-outline-danger" type="button"><i class="far fa-trash-alt"></i></button>
+            </div>
+        </div>
+    </div>
+</div>

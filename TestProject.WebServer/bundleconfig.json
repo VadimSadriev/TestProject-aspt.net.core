@@ -1,0 +1,74 @@
+[
+  {
+    "outputFileName": "wwwroot/style.css",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "wwwroot/css/angular-moment-picker.min.css",
+      "wwwroot/css/angular-datepicker.css",
+      "wwwroot/css/font-awesome.css",
+      "wwwroot/css/global.css",
+      "wwwroot/css/admin.css",
+      "wwwroot/css/login.css",
+      "wwwroot/css/request.css"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery/dist/jquery.min.js",
+      "wwwroot/lib/bootstrap/dist/js/popper.min.js",
+      "wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "wwwroot/lib/angularjs/angular.min.js",
+      "wwwroot/lib/angularjs/angular-animate.min.js",
+      "wwwroot/lib/angularjs/angular-touch.min.js",
+      "wwwroot/lib/angularjs/ui-bootstrap-3.0.4.min.js",
+      "wwwroot/lib/angularjs/ui-bootstrap-tpls-3.0.4.min.js",
+      "wwwroot/lib/angularjs/angular-locale_ru-ru.js",
+      "wwwroot/lib/angularjs/angular-datepicker.js",
+      "wwwroot/lib/angularjs/moment-with-locales.js",
+      "wwwroot/lib/angularjs/angular-moment-picker.min.js",
+      "wwwroot/lib/angularjs/ng-file-upload.min.js",
+      "wwwroot/lib/signalr/signalr.min.js",
+      "wwwroot/js/global.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/admin/admin.min.js",
+    "inputFiles": [
+      "wwwroot/js/admin/admin.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/account/account.min.js",
+    "inputFiles": [
+      "wwwroot/js/account/account.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  },
+  {
+    "outputFileName": "wwwroot/js/request/request.min.js",
+    "inputFiles": [
+      "wwwroot/js/directives/pageListDirective.js",
+      "wwwroot/js/request/request.js"
+    ],
+    "minify": {
+      "enabled": true,
+      "renameLocals": true
+    }
+  }
+]

@@ -1,0 +1,180 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using TestProject.Core
+@inject UserManager<AppUser> UserManager
+
+@{
+    var isAdmin = User.IsInRole("Admin");
+    var canApply = isAdmin || User.IsInRole("CanApplyRequest");
+    var canEdit = isAdmin || User.IsInRole("CanEditRequest");
+}
+
+<div ng-app="requestApp" ng-controller="requestCtrl" ng-cloak>
+    <div class="row">
+        <div  ng-class="{true: 'col-md-2'}[requestTypes && requestTypes.length > 0]">
+            <div ng-if="requestTypes && requestTypes.length > 0">
+                <h5 class="">Типы заявок</h5>
+                <ul class="list-unstyled">
+                    <li class="" ng-repeat="requestType in requestTypes">
+                        <label class="small-text" ng-click="setFilterRequestType(requestType)">
+                            <input class="mat-checkbox" type="checkbox" ng-disabled="isLoading" ng-model="requestType.isSelected" />
+                            <span ng-bind="requestType.name"></span>
+                        </label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!-- request page-->
+        <div ng-class="{true: 'col-md-6', false: 'col-md-8'}[requestTypes && requestTypes.length > 0]">
+            <div class="crud-buttons-panel btn-group-sm">
+                <button class="btn btn-outline-dark" ng-click="createRequestTemplate()">Подать заявку</button>
+            </div>
+            <table class="table table-hover table-sm mt-2">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            Номер заявки
+                            <input class="form-control form-control-sm smallest-text" ng-model="grid.id" ng-change="onPropertyChanged()" />
+                        </th>
+                        <th scope="col">
+                            Тип заявки
+                            <input class="form-control form-control-sm smallest-text" ng-model="grid.requestType" ng-change="onPropertyChanged()" />
+                        </th>
+                        <th scope="col" class="align-top">
+                            Дата подачи
+                        </th>
+                        <th scope="col">
+                            Заявитель
+                            <input class="form-control form-control-sm smallest-text" ng-model="grid.creator" ng-change="onPropertyChanged()" />
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="pointer" ng-class="{true: 'selected'}[request.isSelected]" ng-click="getRequest(request)" ng-repeat="request in requests">
+                        <td>
+                            <span ng-bind="request.id"></span>
+                            <small ng-if="request.displayStatus"><span ng-bind="request.displayStatus"></span></small>
+                        </td>
+                        <td ng-bind="request.type"></td>
+                        <td ng-bind="request.dateCreated"></td>
+                        <td ng-bind="request.creator"></td>
+                    </tr>
+                </tbody>
+            </table>
+            <pageList filter-Options="filterOptions" get-Items-Callback="getRequests"></pageList>
+        </div>
+        <!--request info-->
+        <div class="col-md-4" ng-if="request">
+            <div class="card request-card">
+                <!--card header-->
+                <h5 class="card-header">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div ng-if="request.id">
+                                Заявка номер <span ng-bind="request.id"></span>
+                            </div>
+                            <div ng-if="!request.id">
+                                Новая заявка
+                            </div>
+                            <small class="" ng-bind="request.requestType.name"></small>
+                        </div>
+                        @if (canEdit)
+                        {
+                            <div class="col-md-6 col-sm-6">
+                                <small>Статус заявки</small>
+                                <select class="custom-select custom-select-sm" ng-change="request.isChanged = true;" ng-model="request.status">
+                                    <option ng-repeat="requestStatus in requestStatuses" ng-value="requestStatus.value" ng-bind="requestStatus.displayName"></option>
+                                </select>
+                            </div>
+                        }
+                    </div>
+                    <button type="button" class="close request-close" aria-label="Close" ng-click="closeRequest()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </h5>
+                <!--card body-->
+                <div class="card-body overflow-auto">
+                    <div class="form-group w-50">
+                        <label for="typeSelect">Тип заявки</label>
+                        <select id="typeSelect" class="custom-select custom-select-sm" ng-change="getRequestFieldsData()"
+                                ng-options="requestType.name for requestType in requestTypes track by requestType.id"
+                                ng-model="request.requestType"></select>
+                    </div>
+
+                    <div class="form-group w-50" ng-repeat="typeField in request.requestType.requestTypeFields">
+                        <label class="small-text" for="" ng-bind="typeField.name"></label>
+                        <div ng-switch="typeField.type">
+                            <div ng-switch-when="Number">
+                                <input class="form-control form-control-sm" ng-model="typeField.requestValue.intValue" />
+                            </div>
+                            <div ng-switch-when="String">
+                                <input class="form-control form-control-sm" ng-model="typeField.requestValue.stringValue" />
+                            </div>
+                            <div ng-switch-when="Date">
+                                <datepicker date-format="dd.MM.yyyy" selector="form-control">
+                                    <div class="input-group">
+                                        <input id="typeField{{typeField.id}}" class="form-control form-control-sm" placeholder="Выберите дату"
+                                               ng-model="typeField.requestValue.dateValue" />
+                                        <button type="button" class="btn btn-sm btn-secondary">
+                                            <i class="fa-svg-icon">
+                                                <svg width="15" height="15" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg"><path d="M192 1664h288v-288h-288v288zm352 0h320v-288h-320v288zm-352-352h288v-320h-288v320zm352 0h320v-320h-320v320zm-352-384h288v-288h-288v288zm736 736h320v-288h-320v288zm-384-736h320v-288h-320v288zm768 736h288v-288h-288v288zm-384-352h320v-320h-320v320zm-352-864v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm736 864h288v-320h-288v320zm-384-384h320v-288h-320v288zm384 0h288v-288h-288v288zm32-480v-288q0-13-9.5-22.5t-22.5-9.5h-64q-13 0-22.5 9.5t-9.5 22.5v288q0 13 9.5 22.5t22.5 9.5h64q13 0 22.5-9.5t9.5-22.5zm384-64v1280q0 52-38 90t-90 38h-1408q-52 0-90-38t-38-90v-1280q0-52 38-90t90-38h128v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h384v-96q0-66 47-113t113-47h64q66 0 113 47t47 113v96h128q52 0 90 38t38 90z" /></svg>
+                                            </i>
+                                        </button>
+                                    </div>
+                                </datepicker>
+                            </div>
+                            <div ng-switch-when="File">
+                                <div class="input-group small-input mb-1">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="inputGroupFile" ng-model="typeField.file" ng-change="uploadFile(typeField)" ngf-select
+                                               ngf-max-size="1000MB" ng-disabled="isLoading || typeField.isFileLoading" />
+                                        <label class="custom-file-label textWrapper" for="inputGroupFile">Выберите файл</label>
+                                    </div>
+                                </div>
+                                <div ng-bind="typeField.requestValue.fileName"></div>
+                                <div class="progress" ng-if="typeField.isFileLoading">
+                                    <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" ng-style="{'width': typeField.fileLoadProgress + '%'}"><span ng-bind="typeField.fileLoadProgress + '%'"></span></div>
+                                </div>
+                            </div>
+                            <div ng-switch-when="Time">
+                                <div class="input-group"
+                                     moment-picker="typeField.requestValue.timeValue"
+                                     locale="ru"
+                                     format="HH:mm:ss">
+                                    <div class="input-group-prepend input-group-sm">
+                                        <span class="input-group-text">
+                                            <i class="far fa-clock"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control form-control-sm"
+                                           placeholder="Выберите или введите время"
+                                           ng-model="typeField.requestValue.timeValue"
+                                           ng-model-options="{updateOn: 'blur'}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--card footer-->
+                <div class="card-footer">
+                    <div class="crud-buttons-panel btn-group-sm">
+                        @if (canApply)
+                        {
+                            <button ng-if="!request.id" class="btn btn-outline-dark" ng-click="addRequest()">Отправить</button>
+                        }
+                        @if (canEdit)
+                        {
+                            <button class="btn btn-outline-dark" ng-click="updateRequest()">Сохранить</button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<environment include="development">
+    <script src="~/js/directives/pageListDirective.js"></script>
+    <script src="~/js/request/request.js"></script>
+</environment>
+<environment include="production">
+    <script src="~/js/request/request.min.js"></script>
+</environment>

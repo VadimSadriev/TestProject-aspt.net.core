@@ -1,0 +1,14 @@
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\bin\Debug\netcoreapp2.2\TestProject.Core.deps.json
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\bin\Debug\netcoreapp2.2\TestProject.Core.dll
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\obj\Debug\netcoreapp2.2\TestProject.Core.csproj.CoreCompileInputs.cache
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\obj\Debug\netcoreapp2.2\TestProject.Core.AssemblyInfoInputs.cache
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\obj\Debug\netcoreapp2.2\TestProject.Core.AssemblyInfo.cs
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\bin\Debug\netcoreapp2.2\TestProject.Core.pdb
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\obj\Debug\netcoreapp2.2\TestProject.Core.dll
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\obj\Debug\netcoreapp2.2\TestProject.Core.pdb
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Hosting.dll
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Hosting.xml
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\obj\Debug\netcoreapp2.2\TestProject.Core.csproj.CopyComplete
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\bin\Debug\netcoreapp2.2\TestProject.Core.runtimeconfig.json
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\bin\Debug\netcoreapp2.2\TestProject.Core.runtimeconfig.dev.json
+C:\Users\rogue-one\Desktop\TestProject\TestProject.Core\obj\Debug\netcoreapp2.2\TestProject.Core.csprojAssemblyReference.cache

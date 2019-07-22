@@ -1,0 +1,35 @@
+﻿<div ng-app="admin-app" ng-controller="admin-ctrl" ng-cloak>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#users" ng-click="getUsers();">Пользователи</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#roles" ng-click="getRoles();">Роли</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#requestTypes" ng-click="getRequestTypes();">Заявки</a>
+        </li>
+    </ul>
+
+    <div class="tab-content pt-2">
+        <!--users tab-->
+        <div class="tab-pane fade show active" id="users" role="tabpanel">
+            @{await Html.RenderPartialAsync("UsersPartial");}
+        </div>
+        <!--roles tab-->
+        <div class="tab-pane fade" id="roles" role="tabpanel">
+            @{await Html.RenderPartialAsync("RolesPartial");}
+        </div>
+        <!--request types partial-->
+        <div class="tab-pane fade" id="requestTypes" role="tabpanel">
+            @{ await Html.RenderPartialAsync("RequestTypesPartial");}
+        </div>
+    </div>
+</div>
+</div>
+<environment include="development">
+    <script src="~/js/admin/admin.js"></script>
+</environment>
+<environment include="production">
+    <script src="~/js/admin/admin.min.js"></script>
+</environment>

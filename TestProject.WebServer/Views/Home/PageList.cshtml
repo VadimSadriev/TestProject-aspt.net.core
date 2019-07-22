@@ -1,0 +1,29 @@
+﻿<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        <li class="page-item">
+            <button class="page-link pointer" aria-label="Previous" ng-click="goToPage(filterOptions.currentPage - 1)" ng-disabled="!filterOptions.hasPreviousPage">
+                <span aria-hidden="true">&laquo;</span>
+            </button>
+        </li>
+        <li class="page-item" ng-class="{true: 'active'}[filterOptions.currentPage === i]" ng-repeat="i in [1,2,3]" ng-if="i <= filterOptions.totalPages">
+            <button class="page-link" ng-bind="i" ng-click="goToPage(i)"></button>
+        </li>
+        <li class="page-item" ng-if="filterOptions.currentPage > 3 && (filterOptions.totalPages - filterOptions.currentPage) >= 3">
+            <span class="page-link">...</span>
+        </li>
+        <li class="page-item active" ng-if="filterOptions.currentPage > 3 && (filterOptions.totalPages - filterOptions.currentPage) >= 3">
+            <button class="page-link" ng-bind="filterOptions.currentPage"></button>
+        </li>
+        <li class="page-item" ng-if="filterOptions.totalPages > 3">
+            <span class="page-link">...</span>
+        </li>
+        <li class="page-item" ng-class="{true: 'active'}[filterOptions.currentPage === i]" ng-repeat="i in lastPages()" ng-if="filterOptions.totalPages > 3">
+            <button class="page-link" ng-bind="i" ng-click="goToPage(i)"></button>
+        </li>
+        <li class="page-item">
+            <button class="page-link pointer" aria-label="Next" ng-click="goToPage(filterOptions.currentPage + 1)" ng-disabled="!filterOptions.hasNextPage">
+                <span aria-hidden="true">&raquo;</span>
+            </button>
+        </li>
+    </ul>
+</nav>

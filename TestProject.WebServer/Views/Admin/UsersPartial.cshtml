@@ -1,0 +1,43 @@
+﻿<div class="row">
+    <div class="col-md-12 crud-buttons-panel">
+        <div class="btn-toolbar btn-group-sm">
+            <button type="button" ng-disabled="isLoading" class="btn btn-outline-dark mr-2" ng-click="addNewUser()">Новый пользователь</button>
+            <button type="button" ng-disabled="isloading || (!selectedUser || !selectedUser.isChanged)"
+                    class="btn btn-outline-dark mr-2" ng-click="updateUser()">
+                Сохранить пользователя
+            </button>
+            <button type="button" class="btn btn-outline-dark mr-2" ng-disabled="isLoading || !selectedUser" ng-click="deleteUser()">
+                Удалить пользователя
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="row pt-2">
+    <div class="col-sm-12 col-md-3 col-lg-3">
+        <ul class="list-group list-group-flush item-list">
+            <li class="list-group-item list-group-item-action" ng-repeat="user in users" ng-click="selectUser(user)" ng-class="{true: 'selected'}[user.isSelected]">
+                <span ng-bind="user.userName"></span> &nbsp; <span class="badge badge-warning badge-pill" ng-show="!user.id">Не сохранён</span>
+            </li>
+        </ul>
+    </div>
+    <div class="col-sm-12 col-md-5 col-lg-5 item-info" ng-if="selectedUser.isSelected">
+        <!--Email-->
+        <div class="form-group w-100">
+            <label for="email">Почта</label>
+            <input id="email" type="text" name="email" ng-disabled="isLoading" class="form-control form-control-sm" ng-class="{true: 'shadow-error rounded'}[selectedUser.error.email]" ng-model="selectedUser.email" ng-change="selectedUser.isChanged = true; CheckEmail()" role="alert" ng-required="true">
+        </div>
+        <!--Login-->
+        <div class="form-group w-100">
+            <label for="login">Логин</label>
+            <input id="login" name="login" type="text" ng-disabled="isLoading" class="form-control form-control-sm" ng-class="{true: 'shadow-error rounded'}[selectedUser.error.userName]" ng-model="selectedUser.userName" ng-change="selectedUser.isChanged = true; checkUserName()" ng-trim="false" ng-required="true">
+        </div>
+        <!--list of roles-->
+        <div class="form-group w-100" ng-repeat="role in selectedUser.customRoles">
+            <label class="small-text">
+                <input class="mat-checkbox" type="checkbox" ng-disabled="isLoading" ng-model="role.isSelected" ng-change="role.isChanged = true; selectedUser.isChanged = true" />
+                <span ng-bind="role.name"></span>
+            </label>
+        </div>
+    </div>
+</div>
